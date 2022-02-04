@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 enum PermissionGeolocation {
   "denied" = 0,
@@ -8,15 +8,22 @@ enum PermissionGeolocation {
 
 enum GeolocationError {
   "unknown error",
-  "permission denied",
-  "position unavailable",
+  "denied",
+  "unavailable",
   "timed out",
 }
 
-export default function useWeather() {
-  const [allowedGeoLocation, setAllowedGeoLocation] = useState(false);
+type CustomGeolocationPosition = {
+  coords: Partial<GeolocationCoordinates>;
+  timestamp: number;
+};
+
+export default function useLocation() {
+  const [allowedGeoLocation, setAllowedGeoLocation] = useState(
+    Number(sessionStorage.getItem("allowedLocation")) || 1
+  );
   const [currentLocation, setCurrentLocation] =
-    useState<GeolocationPosition | null>(null);
+    useState<CustomGeolocationPosition>({} as CustomGeolocationPosition);
   const [error, setError] = useState<String | null>(null);
 
   const geoOptions = {
@@ -24,35 +31,44 @@ export default function useWeather() {
   };
 
   function geoSuccess(position: GeolocationPosition) {
-    setAllowedGeoLocation(true);
-    setCurrentLocation(position);
+    const newPosition = {
+      coords: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      },
+      timestamp: position.timestamp,
+    };
+    setCurrentLocation(newPosition);
+    setAllowedGeoLocation(1);
+    sessionStorage.setItem("allowedGeolocation", "1");
   }
 
   function geoError(error: GeolocationPositionError) {
-    if (GeolocationError[error.code] === "permission denied") {
-      setAllowedGeoLocation(false);
+    if (GeolocationPositionError.PERMISSION_DENIED === error.code) {
+      setAllowedGeoLocation(0);
+      sessionStorage.setItem("allowedGeolocation", "0");
     }
 
-    setCurrentLocation(null);
+    setCurrentLocation({} as CustomGeolocationPosition);
     setError(GeolocationError[error.code]);
   }
 
-  useEffect(() => {
-    if (!allowedGeoLocation || !currentLocation) {
-      if (navigator.permissions) {
-        navigator.permissions.query({ name: "geolocation" }).then((result) => {
-          const permission = PermissionGeolocation[result.state];
-          if (permission === 2 && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              geoSuccess,
-              geoError,
-              geoOptions
-            );
-          } else {
-            setAllowedGeoLocation(!!PermissionGeolocation[result.state]);
-          }
+  async function getCurrentLocation() {
+    if ("geolocation" in navigator) {
+      if ("permissions" in navigator) {
+        const result = await navigator.permissions.query({
+          name: "geolocation",
         });
-      } else if (navigator.geolocation) {
+
+        const permission = PermissionGeolocation[result.state];
+        if (!!permission) {
+          navigator.geolocation.getCurrentPosition(
+            geoSuccess,
+            geoError,
+            geoOptions
+          );
+        }
+      } else {
         navigator.geolocation.getCurrentPosition(
           geoSuccess,
           geoError,
@@ -60,7 +76,7 @@ export default function useWeather() {
         );
       }
     }
-  }, [allowedGeoLocation, currentLocation]);
+  }
 
-  return { allowedGeoLocation, currentLocation, error };
+  return { allowedGeoLocation, currentLocation, error, getCurrentLocation };
 }
