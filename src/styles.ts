@@ -22,7 +22,7 @@ export const Container = styled.div<HTMLProps<HTMLDivElement> & ContainerProps>`
     );
     width: 100vw;
     height: 100vh;
-    padding: 0;
+    padding: 0.25rem;
     margin: 0;
   `}
 `;

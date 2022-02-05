@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Button = styled.button`
   border-radius: 0.5rem;
   font-size: 1.5rem;
-  padding: 0.5rem 3rem;
+  padding: 1rem;
   color: "#585858";
   border: solid 3px transparent;
   background-image: linear-gradient(
