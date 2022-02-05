@@ -1,46 +1,47 @@
-import {
+import React, {
   createContext,
-  ReactChild,
+  FunctionComponent,
   useContext,
   useEffect,
   useState,
 } from "react";
-import useLocation from "../../hooks/useLocation";
+
+import useLocation from "@hooks/useLocation";
 
 interface WeatherResponse {
   weather: [
     {
-      id: Number;
-      main: String;
-      description: String;
-      icon: String;
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
     }
   ];
   main: {
-    temp: Number;
-    feels_like: Number;
-    temp_min: Number;
-    temp_max: Number;
-    pressure: Number;
-    humidity: Number;
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    pressure: number;
+    humidity: number;
   };
-  visibility: Number;
+  visibility: number;
   wind: {
-    speed: Number;
-    deg: Number;
+    speed: number;
+    deg: number;
   };
   clouds: {
-    all: Number;
+    all: number;
   };
-  name: String;
-  cod: Number;
+  name: string;
+  cod: number;
 }
 
 type WeatherContextType = {
   data?: WeatherResponse;
   error?: Error;
   isLoading: boolean;
-  allowedGeoLocation: number;
+  errorLocation?: string;
   getWeatherData(): void;
 };
 
@@ -48,17 +49,16 @@ const WeatherContext = createContext<WeatherContextType>(
   {} as WeatherContextType
 );
 
-export const WeatherContextProvider = ({
-  children,
-}: {
-  children: ReactChild;
-}) => {
+export const WeatherContextProvider: FunctionComponent = ({ children }) => {
   const [error, setError] = useState<Error>();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<WeatherResponse>();
 
-  const { currentLocation, allowedGeoLocation, getCurrentLocation } =
-    useLocation();
+  const {
+    currentLocation,
+    error: errorLocation,
+    getCurrentLocation,
+  } = useLocation();
 
   const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
@@ -69,11 +69,11 @@ export const WeatherContextProvider = ({
   }, [currentLocation.timestamp]);
 
   async function fetchWeatherData() {
+    setIsLoading(true);
     const { coords } = currentLocation;
     try {
-      setIsLoading(true);
       const result = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&lang=pt_br`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}&lang=pt_br&units=metric`
       );
 
       const data: WeatherResponse = await result.json();
@@ -91,7 +91,7 @@ export const WeatherContextProvider = ({
 
   return (
     <WeatherContext.Provider
-      value={{ data, isLoading, error, allowedGeoLocation, getWeatherData }}
+      value={{ data, isLoading, error, errorLocation, getWeatherData }}
     >
       {children}
     </WeatherContext.Provider>

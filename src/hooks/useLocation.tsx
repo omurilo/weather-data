@@ -7,10 +7,9 @@ enum PermissionGeolocation {
 }
 
 enum GeolocationError {
-  "unknown error",
-  "denied",
-  "unavailable",
-  "timed out",
+  "Permissão para acesso à localização negada",
+  "Não foi possível determinar a sua posição",
+  "O serviço de geolocalização demorou muito tempo para responder",
 }
 
 type CustomGeolocationPosition = {
@@ -19,12 +18,9 @@ type CustomGeolocationPosition = {
 };
 
 export default function useLocation() {
-  const [allowedGeoLocation, setAllowedGeoLocation] = useState(
-    Number(sessionStorage.getItem("allowedLocation")) || 1
-  );
   const [currentLocation, setCurrentLocation] =
     useState<CustomGeolocationPosition>({} as CustomGeolocationPosition);
-  const [error, setError] = useState<String | null>(null);
+  const [error, setError] = useState<string>("");
 
   const geoOptions = {
     enableHighAccuracy: true,
@@ -39,18 +35,12 @@ export default function useLocation() {
       timestamp: position.timestamp,
     };
     setCurrentLocation(newPosition);
-    setAllowedGeoLocation(1);
-    sessionStorage.setItem("allowedGeolocation", "1");
+    setError("");
   }
 
   function geoError(error: GeolocationPositionError) {
-    if (GeolocationPositionError.PERMISSION_DENIED === error.code) {
-      setAllowedGeoLocation(0);
-      sessionStorage.setItem("allowedGeolocation", "0");
-    }
-
     setCurrentLocation({} as CustomGeolocationPosition);
-    setError(GeolocationError[error.code]);
+    setError(GeolocationError[error.code - 1]);
   }
 
   async function getCurrentLocation() {
@@ -78,5 +68,5 @@ export default function useLocation() {
     }
   }
 
-  return { allowedGeoLocation, currentLocation, error, getCurrentLocation };
+  return { currentLocation, error, getCurrentLocation };
 }

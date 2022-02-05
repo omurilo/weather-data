@@ -1,9 +1,11 @@
-import * as Styled from "./styles";
+import React from "react";
 
-export default function HeaderAlert() {
+import * as Styled from "@components/HeaderAlert/styles";
+
+export default function HeaderAlert({ message }: { message: string }) {
   return (
     <Styled.Alert>
-      <strong>Autorize a utilização da sua localização</strong>
+      <strong>{message}</strong>
     </Styled.Alert>
   );
 }
