@@ -1,24 +1,22 @@
 import Weather from "./components/Weather";
 import HeaderAlert from "./components/HeaderAlert";
+import Button from "./components/Button";
+import * as Styled from "./styles";
 
-import "./App.css";
 import useWeather from "./contexts/Weather";
 
 function App() {
-  const { getWeatherData, allowedGeoLocation } = useWeather();
+  const { getWeatherData, errorLocation, data } = useWeather();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Weather />
-        <p>
-          <button type="button" onClick={getWeatherData}>
-            Pegar
-          </button>
-        </p>
+    <Styled.Container $condition={data?.weather[0].main}>
+      {/* <header>{!allowedGeoLocation ? <HeaderAlert /> : null}</header> */}
+      <header>
+        {errorLocation ? <HeaderAlert message={errorLocation} /> : null}
       </header>
-      {!allowedGeoLocation ? <HeaderAlert /> : null}
-    </div>
+      <Weather />
+      <Button handle={getWeatherData}>{data ? 'Atualizar' : 'Buscar'} previsão do tempo</Button>
+    </Styled.Container>
   );
 }
 
