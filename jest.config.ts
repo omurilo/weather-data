@@ -14,7 +14,7 @@ const config: Config.InitialOptions = {
     "<rootDir>/__tests__/**/*.{js,jsx,ts,tsx}",
     "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
   ],
-  testPathIgnorePatterns: ["<rootDir>/__tests__/test-utils.tsx"],
+  testPathIgnorePatterns: ["<rootDir>/__tests__/test-utils/*"],
   testEnvironment: "jsdom",
   transform: {
     // @ts-ignore

@@ -31,7 +31,7 @@
         "./src/contexts/*"
       ],
       "@tests/*": [
-        "__tests__/*"
+        "./__tests__/*"
       ],
     },
     "isolatedModules": true,
