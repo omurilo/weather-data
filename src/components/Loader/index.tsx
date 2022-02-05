@@ -1,5 +1,7 @@
+import React from "react";
 import Lottie from "react-lottie";
-import cloudsData from "./clouds.json";
+
+import cloudsData from "@assets/clouds.json";
 
 export default function CloudsLoader() {
   const defaultOptions = {
