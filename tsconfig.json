@@ -33,6 +33,9 @@
       "@tests/*": [
         "./__tests__/*"
       ],
+      "@config/*": [
+        "./src/configs/*"
+      ]
     },
     "isolatedModules": true,
     "noEmit": true,
@@ -45,7 +48,8 @@
       "jest",
       "@types/testing-library__jest-dom",
       "@types/react",
-      "styled-components"
+      "styled-components",
+      "node"
     ],
     "allowJs": false
   },

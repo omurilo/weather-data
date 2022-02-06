@@ -31,6 +31,7 @@ const config: Config.InitialOptions = {
     "@hooks/(.*)": "<rootDir>/src/hooks/$1",
     "@contexts/(.*)": "<rootDir>/src/contexts/$1",
     "@tests/(.*)": "<rootDir>/__tests__/$1",
+    "@config/(.*)": "<rootDir>/src/configs/$1",
   },
 };
 

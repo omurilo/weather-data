@@ -1,12 +1,7 @@
-import React, {
-  createContext,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import * as React from "react";
 
 import useLocation from "@hooks/useLocation";
+import { APP_CONFIG } from "@config/env";
 
 interface WeatherResponse {
   weather: [
@@ -45,14 +40,16 @@ type WeatherContextType = {
   getWeatherData(): void;
 };
 
-const WeatherContext = createContext<WeatherContextType>(
+const WeatherContext = React.createContext<WeatherContextType>(
   {} as WeatherContextType
 );
 
-export const WeatherContextProvider: FunctionComponent = ({ children }) => {
-  const [error, setError] = useState<Error>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<WeatherResponse>();
+export const WeatherContextProvider: React.FunctionComponent = ({
+  children,
+}) => {
+  const [error, setError] = React.useState<Error>();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [data, setData] = React.useState<WeatherResponse>();
 
   const {
     currentLocation,
@@ -60,9 +57,9 @@ export const WeatherContextProvider: FunctionComponent = ({ children }) => {
     getCurrentLocation,
   } = useLocation();
 
-  const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
+  const { API_KEY } = APP_CONFIG;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (currentLocation.coords) {
       fetchWeatherData();
     }
@@ -99,5 +96,5 @@ export const WeatherContextProvider: FunctionComponent = ({ children }) => {
 };
 
 export default function useWeather() {
-  return useContext(WeatherContext);
+  return React.useContext(WeatherContext);
 }

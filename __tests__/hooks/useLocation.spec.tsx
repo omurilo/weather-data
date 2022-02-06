@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 
 import useLocation from "@hooks/useLocation";
 import mockNavigatorGeolocation from "@tests/test-utils/mocks/geolocation";
-import mockNavigatorPermissions from "../test-utils/mocks/permissions";
+import mockNavigatorPermissions from "@tests/test-utils/mocks/permissions";
 
 const DEFAULT_LOCATION = {
   coords: {
@@ -40,9 +40,7 @@ describe("Use Location", () => {
   it("should get user location with permissions API granted", async () => {
     mockNavigatorGeolocation();
     mockNavigatorPermissions();
-    const { result, rerender, waitForNextUpdate } = renderHook(() =>
-      useLocation()
-    );
+    const { result, waitForNextUpdate } = renderHook(() => useLocation());
 
     act(() => {
       result.current.getCurrentLocation();

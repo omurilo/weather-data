@@ -1,14 +1,14 @@
-import React, { FunctionComponent, ReactElement } from "react";
+import * as React from "react";
 import { render, RenderOptions } from "@testing-library/react";
 
 import { WeatherContextProvider } from "@contexts/Weather";
 
-const AllTheProviders: FunctionComponent = ({ children }) => {
-  return <WeatherContextProvider>{children}</WeatherContextProvider>;
+export const AllTheProviders: React.FunctionComponent = ({ children, ...providerProps }) => {
+  return <WeatherContextProvider {...providerProps}>{children}</WeatherContextProvider>;
 };
 
 const customRender = (
-  ui: ReactElement,
+  ui: React.ReactElement,
   options?: Omit<RenderOptions, "wrapper">
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
