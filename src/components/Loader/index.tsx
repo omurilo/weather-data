@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import Lottie from "react-lottie";
 
 import cloudsData from "@assets/clouds.json";
