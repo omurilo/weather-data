@@ -7,7 +7,9 @@ interface ContainerProps {
   $condition?: string;
 }
 
-export const Container = styled.div<HTMLProps<HTMLDivElement> & ContainerProps>`
+export const Container = styled.section<
+  HTMLProps<HTMLDivElement> & ContainerProps
+>`
   ${({ $condition }) => css`
     display: flex;
     justify-content: center;
