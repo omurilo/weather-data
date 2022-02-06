@@ -32,6 +32,7 @@ const config: Config.InitialOptions = {
     "@contexts/(.*)": "<rootDir>/src/contexts/$1",
     "@tests/(.*)": "<rootDir>/__tests__/$1",
     "@config/(.*)": "<rootDir>/src/configs/$1",
+    "@/(.*)": "<rootDir>/src/$1",
   },
 };
 

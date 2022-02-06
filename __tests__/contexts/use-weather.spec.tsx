@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 
 import mockNavigatorGeolocation from "@tests/test-utils/mocks/geolocation";
 import mockGlobalFetch from "@tests/test-utils/mocks/fetch";
-import { AllTheProviders } from "@tests/test-utils/test-utils";
+import { AllTheProviders } from "@tests/test-utils";
 
 import useWeather from "@contexts/Weather";
 

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { AiOutlineFire } from "react-icons/ai";
 import {
   HiOutlineArrowNarrowUp,
@@ -26,7 +26,7 @@ export default function Weather() {
   if (error) return <span>Error: {JSON.stringify(error.message)}</span>;
 
   return (
-    <Styled.Container>
+    <Styled.Container data-testid="weather-data-container">
       {data ? (
         <Styled.Card>
           <Styled.Title>
