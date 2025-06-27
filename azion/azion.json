@@ -1,0 +1,58 @@
+{
+  "name": "weather-data",
+  "bucket": "weather-data-20250627141227",
+  "preset": "react",
+  "env": "production",
+  "prefix": "20250627141207",
+  "not-first-run": true,
+  "function": {
+    "id": 47005,
+    "name": "__DEFAULT__",
+    "file": ".edge/worker.js",
+    "args": "azion/args.json",
+    "instance-id": 43369,
+    "instance-name": "__DEFAULT__",
+    "cache-id": 0
+  },
+  "application": {
+    "id": 1751038088,
+    "name": "__DEFAULT__"
+  },
+  "domain": {
+    "id": 1751037978,
+    "name": "weather-data",
+    "domain_name": "xx49t2buej.map.azionedge.net",
+    "url": "https://xx49t2buej.map.azionedge.net"
+  },
+  "rt-purge": {
+    "purge_on_publish": true
+  },
+  "origin": [
+    {
+      "origin-id": 225230,
+      "origin-key": "c1de4594-62ab-4498-a6b7-f01f8cacc348",
+      "name": "origin-storage-default"
+    }
+  ],
+  "rules-engine": {
+    "created": false,
+    "rules": [
+      {
+        "id": 436255,
+        "name": "Set Storage Origin for All Requests",
+        "phase": "request"
+      },
+      {
+        "id": 436256,
+        "name": "Deliver Static Assets",
+        "phase": "request"
+      },
+      {
+        "id": 436257,
+        "name": "Redirect to index.html",
+        "phase": "request"
+      }
+    ]
+  },
+  "cache-settings": []
+}

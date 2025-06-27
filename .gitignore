@@ -4,3 +4,6 @@ dist
 dist-ssr
 coverage
 *.local
+#Paths added by Azion CLI
+.edge/
+.vulcan
